@@ -1,0 +1,34 @@
+name: CMake on a single platform
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build formatter lib
+      run: |
+        cd formatter_lib/
+        cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+        cmake --build _build
+        ls _build
+    - name: Build formatter ex lib
+      run: |
+        cd formatter_ex_lib/
+        cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+        cmake --build _build
+    - name: Build hello world
+      run: |
+        cd hello_world_application/
+        cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+        cmake --build _build
+    - name: Build solver
+      run: |
+        cd solver_application/
+        cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+        cmake --build _build
